@@ -27,6 +27,7 @@ class Printer
 	public int $linesBetweenUseTypes = 0;
 	public string $returnTypeColon = ': ';
 	public bool $bracesOnNextLine = true;
+    public bool $trailingComaForMultilineParameters = true;
 	protected ?PhpNamespace $namespace = null;
 	protected ?Dumper $dumper;
 	private bool $resolveTypes = true;
@@ -350,7 +351,8 @@ class Printer
 		$line = implode(', ', $params);
 
 		return count($params) > 1 && ($special || strlen($line) + $column > $this->wrapLength)
-			? "(\n" . $this->indent(implode(",\n", $params)) . ",\n)"
+			? "(\n" . $this->indent(implode(",\n", $params))
+            . ($this->trailingComaForMultilineParameters ? ',' : '') . "\n)"
 			: "($line)";
 	}
 
