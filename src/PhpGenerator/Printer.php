@@ -426,6 +426,9 @@ class Printer
 	protected function indent(string $s): string
 	{
 		$s = str_replace("\t", $this->indentation, $s);
+        if ($this->trailingComaForMultilineParameters === false) {
+            $s = preg_replace('~,(\s*\))~', '$1', $s);
+        }
 		return Strings::indent($s, 1, $this->indentation);
 	}
 
